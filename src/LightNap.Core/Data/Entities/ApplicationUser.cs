@@ -1,4 +1,5 @@
-﻿using LightNap.Core.Profile.Dto.Response;
+﻿using LightNap.Core.Data.Entiies.ChatEntities;
+using LightNap.Core.Profile.Dto.Response;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics.CodeAnalysis;
 
@@ -45,5 +46,7 @@ namespace LightNap.Core.Data.Entities
             TwoFactorEnabled = twoFactorEnabled;
             UserName = userName;
         }
+
+        public ICollection<Room> Rooms { get; set; } = [];
     }
 }
