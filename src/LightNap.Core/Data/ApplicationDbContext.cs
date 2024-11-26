@@ -1,5 +1,7 @@
 ﻿using LightNap.Core.Data.Converters;
+using LightNap.Core.Data.Entiies.ChatEntities;
 using LightNap.Core.Data.Entities;
+using LightNap.Core.Data.Entities.ChatEntities;
 using LightNap.Core.Profile.Dto.Response;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -48,6 +50,16 @@ namespace LightNap.Core.Data
                 .WithMany(u => u.RefreshTokens)
                 .HasForeignKey(rt => rt.UserId)
                 .IsRequired();
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(e => e.Rooms)
+                .WithMany(e => e.Users)
+                .UsingEntity<UserRoom>(
+                    l => l.HasOne<Room>().WithMany().HasForeignKey(e => e.RoomId),
+                    r => r.HasOne<ApplicationUser>().WithMany().HasForeignKey(e => e.UserId),
+                    u => u.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP"));
+
+            builder.Entity<Message>();        
         }
 
         /// <inheritdoc />
