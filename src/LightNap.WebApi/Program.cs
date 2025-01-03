@@ -1,6 +1,7 @@
 using LightNap.Core.Configuration;
 using LightNap.Core.Data;
 using LightNap.Core.Data.Entities;
+using LightNap.Core.Services;
 using LightNap.WebApi.Configuration;
 using LightNap.WebApi.Extensions;
 using LightNap.WebApi.Middleware;
@@ -24,6 +25,7 @@ builder.Services.AddControllers().AddJsonOptions((options) =>
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSignalR();
 builder.Services.AddSwaggerGen(c =>
 {
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
@@ -48,6 +50,7 @@ if (app.Environment.IsDevelopment())
 app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 
+app.UseRouting();
 app.UseCors(policy =>
     policy
         .WithOrigins("http://localhost:4200")
@@ -55,8 +58,13 @@ app.UseCors(policy =>
         .AllowAnyMethod()
         .AllowCredentials());
 
+
 app.UseAuthentication();
 app.UseAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<ChatHub>("/chat");
+});
 
 app.UseDefaultFiles();
 app.UseStaticFiles();

@@ -18,7 +18,7 @@ namespace LightNap.Core.Data.Entities.ChatEntities {
         /// <summary>
         /// The User Id of the sender
         /// </summary>
-        public int SentByUserId { get; set;}
+        public string SentByUserId { get; set;}
 
         /// <summary>
         /// The Room Id the message belongs to.

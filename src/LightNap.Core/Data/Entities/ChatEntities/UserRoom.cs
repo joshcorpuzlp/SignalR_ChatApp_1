@@ -7,6 +7,6 @@ public class UserRoom
 {
     public string UserId { get; set; }
     public int RoomId { get; set; }
-    public int ConnectionId { get; set; }
+    public string ConnectionId { get; set; }
     public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
 }

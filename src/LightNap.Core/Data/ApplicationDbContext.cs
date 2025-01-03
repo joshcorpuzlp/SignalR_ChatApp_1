@@ -19,6 +19,21 @@ namespace LightNap.Core.Data
         public DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
 
         /// <summary>
+        /// Gets or sets the Room DbSet.
+        /// </summary>
+        public DbSet<Room> Rooms { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the UserRoom DbSet.
+        /// </summary>
+        public DbSet<UserRoom> UserRooms { get; set; } = null!;
+
+        /// <summary>
+        /// Gets or sets the UserRoom DbSet.
+        /// </summary>
+        public DbSet<Message> Messages { get; set; } = null!;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationDbContext"/> class.
         /// </summary>
         /// <param name="options">The DbContext options.</param>
@@ -59,7 +74,8 @@ namespace LightNap.Core.Data
                     r => r.HasOne<ApplicationUser>().WithMany().HasForeignKey(e => e.UserId),
                     u => u.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP"));
 
-            builder.Entity<Message>();        
+            builder.Entity<Message>();
+            builder.Entity<Room>();        
         }
 
         /// <inheritdoc />
