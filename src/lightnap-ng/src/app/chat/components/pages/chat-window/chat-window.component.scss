@@ -1,0 +1,36 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+  }
+  
+  .message-history {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 200px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    padding: 5px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+  }
+  
+  .message-history p {
+    margin: 5px 0;
+  }
+  
+  .chat-input {
+    display: flex;
+    gap: 10px;
+  }
+  
+  input[pInputText] {
+    flex: 1;
+  }
+  
+  button[pButton] {
+    flex-shrink: 0;
+  }
