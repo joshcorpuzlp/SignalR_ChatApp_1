@@ -9,6 +9,7 @@ import { Routes as PublicRoutes } from "../public/components/pages/routes";
 import { Routes as UserRoutes } from "../user/components/pages/routes";
 import { AppRoute } from "./models/app-route";
 import { PublicLayoutComponent } from "@layout/components/layouts/public-layout/public-layout.component";
+import { Routes as ChatRoute } from "../chat/components/pages/routes";
 
 export const Routes: AppRoute[] = [
   { path: "", component: PublicLayoutComponent, children: PublicRoutes },
@@ -26,6 +27,12 @@ export const Routes: AppRoute[] = [
     component: AppLayoutComponent,
     canActivate: [authGuard, adminGuard],
     children: [{ path: "", data: { breadcrumb: "Admin" }, children: AdminRoutes }],
+  },
+  {
+    path: "chat-window",
+    component: AppLayoutComponent,
+    canActivate: [authGuard],
+    children: [{path: "", data: {breadcrumb: "Chat Window"}, children: ChatRoute}],
   },
   { path: "identity", data: { breadcrumb: "Identity" }, children: IdentityRoutes },
   { path: "**", redirectTo: "/not-found" },

@@ -1,0 +1,11 @@
+<p-card header="Chat">
+    <div class="chat-container">
+        <div class="message-history">
+          <p *ngFor="let message of TestMesssages">{{ message.message }}</p>
+        </div>
+        <div class="chat-input">
+          <input pInputText type="text" [(ngModel)]="messageInput" (keyup.enter)="sendMessage()" placeholder="Type a message..." />
+          <button pButton type="button" label="Send" (click)="sendMessage()"></button>
+        </div>
+      </div>
+</p-card>
