@@ -1,4 +1,4 @@
-﻿using LightNap.Core.Data.Entiies.ChatEntities;
+﻿using LightNap.Core.Data.Entities.ChatEntities;
 using LightNap.Core.Profile.Dto.Response;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics.CodeAnalysis;

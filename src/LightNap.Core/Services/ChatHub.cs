@@ -1,5 +1,4 @@
 using LightNap.Core.Data;
-using LightNap.Core.Data.Entiies.ChatEntities;
 using LightNap.Core.Data.Entities.ChatEntities;
 using LightNap.Core.Interfaces;
 using Microsoft.AspNetCore.SignalR;
