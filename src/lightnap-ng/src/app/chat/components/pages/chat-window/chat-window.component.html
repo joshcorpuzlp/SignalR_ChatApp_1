@@ -7,6 +7,11 @@
       <div class="flex flex-column">
         <button pButton type="button" label="Create" (click)="createRoom()"></button>
       </div>
+      @if(!!selectedRoom) {
+        <div class="flex flex-column">
+          <button pButton type="button" label="Leave Room" (click)="leaveRoom()"></button>
+        </div>
+      }
     </div>
   </div>
   <div>
@@ -15,19 +20,23 @@
         <tr>
           <th>Id</th>
           <th>Room Name</th>
+          <th></th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-room>
         <tr>
           <td>{{room.id}}</td>
           <td>{{room.name}}</td>
+          <td>
+            <p-button label="Join Room" title="Join Room" (onClick)="joinRoom($event, room.id)"></p-button>
+          </td>
         </tr>
       </ng-template>
     </p-table>
   </div>
 </p-card>
 
-@if(hasSelectedRoom) {
+@if(!!selectedRoom) {
   <p-card header="Chat">
       <div class="chat-container">
           <div class="message-history">
