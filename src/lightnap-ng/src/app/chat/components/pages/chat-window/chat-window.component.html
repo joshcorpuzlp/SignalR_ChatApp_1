@@ -1,11 +1,51 @@
-<p-card header="Chat">
-    <div class="chat-container">
-        <div class="message-history">
-          <p *ngFor="let message of TestMesssages">{{ message.message }}</p>
-        </div>
-        <div class="chat-input">
-          <input pInputText type="text" [(ngModel)]="messageInput" (keyup.enter)="sendMessage()" placeholder="Type a message..." />
-          <button pButton type="button" label="Send" (click)="sendMessage()"></button>
-        </div>
+<p-card header="Rooms">
+  <div class="my-2">
+    <div class="flex align-items-center gap-1">
+      <div class="flex flex-column">
+        <input pInputText type="text" placeHolder="Enter room name" [(ngModel)]="roomName">
       </div>
+      <div class="flex flex-column">
+        <button pButton type="button" label="Create" (click)="createRoom()"></button>
+      </div>
+      @if(!!selectedRoom) {
+        <div class="flex flex-column">
+          <button pButton type="button" label="Leave Room" (click)="leaveRoom()"></button>
+        </div>
+      }
+    </div>
+  </div>
+  <div>
+    <p-table [value]="rooms">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Id</th>
+          <th>Room Name</th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-room>
+        <tr>
+          <td>{{room.id}}</td>
+          <td>{{room.name}}</td>
+          <td>
+            <p-button label="Join Room" title="Join Room" (onClick)="joinRoom(room.id)"></p-button>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
 </p-card>
+
+@if(!!selectedRoom) {
+  <p-card header="Chat">
+      <div class="chat-container">
+          <div class="message-history">
+            <p *ngFor="let message of chatMessages">{{ message.chatMessage }}</p>
+          </div>
+          <div class="chat-input">
+            <input pInputText type="text" [(ngModel)]="messageInput" (keyup.enter)="sendMessage()" placeholder="Type a message..." />
+            <button pButton type="button" label="Send" (click)="sendMessage()"></button>
+          </div>
+        </div>
+  </p-card>
+}

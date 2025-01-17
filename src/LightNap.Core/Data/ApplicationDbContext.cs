@@ -1,5 +1,4 @@
 ﻿using LightNap.Core.Data.Converters;
-using LightNap.Core.Data.Entiies.ChatEntities;
 using LightNap.Core.Data.Entities;
 using LightNap.Core.Data.Entities.ChatEntities;
 using LightNap.Core.Profile.Dto.Response;
@@ -75,7 +74,9 @@ namespace LightNap.Core.Data
                     u => u.Property(e => e.CreatedDate).HasDefaultValueSql("CURRENT_TIMESTAMP"));
 
             builder.Entity<Message>();
-            builder.Entity<Room>();        
+            builder.Entity<Room>();
+            builder.Entity<UserRoom>()
+                .HasKey(ur => new { ur.UserId, ur.RoomId, ur.ConnectionId });
         }
 
         /// <inheritdoc />

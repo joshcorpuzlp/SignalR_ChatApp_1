@@ -1,6 +1,3 @@
-using LightNap.Core.Data.Entiies.ChatEntities;
-using LightNap.Core.Data.Entiies;
-
 namespace LightNap.Core.Data.Entities.ChatEntities;
 
 public class UserRoom
