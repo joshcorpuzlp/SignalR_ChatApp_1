@@ -1,3 +1,4 @@
+using LightNap.Core.ChatRoom.Services;
 using LightNap.Core.Data;
 using LightNap.Core.Data.Entities.ChatEntities;
 using LightNap.Core.Interfaces;
@@ -12,14 +13,17 @@ namespace LightNap.Core.Services;
 public class ChatHub : Hub
 {
     private readonly ApplicationDbContext _context;
+    private readonly IMessageService _messageService;
     //private readonly IUserContext _userContext;
 
     public ChatHub(
-        ApplicationDbContext context
+        ApplicationDbContext context,
+        IMessageService messageService
         //,IUserContext userContext
         ) 
     {
         _context = context;
+        _messageService = messageService;
         //_userContext = userContext;
     }
 
@@ -60,16 +64,19 @@ public class ChatHub : Hub
 
     public async Task SendMessage(string message, int roomId, string userId) 
     {
-        var room = _context.Rooms.FirstOrDefault(r => r.Id == roomId);
-        await Clients.Group(room!.Name).SendAsync("ReceiveMessage", "System", message, DateTime.Now);
-        _context.Messages.Add(new Message 
+        var room = await _context.Rooms.FirstOrDefaultAsync(r => r.Id == roomId);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        await Clients.Group(room!.Name).SendAsync("ReceiveMessage", user.Id, message, DateTime.Now);
+
+        var newMessage = new Message
         {
             ChatMessage = message,
             RoomId = roomId,
             SentByUserId = userId,
             CreateDate = DateTime.UtcNow,
-        });
-        await _context.SaveChangesAsync();
+        };
+        await _messageService.CreateMessage(newMessage);
+
         return;
     }
 

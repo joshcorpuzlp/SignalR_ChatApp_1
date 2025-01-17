@@ -16,8 +16,10 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { BehaviorSubject, Subject, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import { ChatMessage } from 'src/app/chat/models/chat-message';
 import { ChatService } from 'src/app/chat/services/chat.service';
+import { MessageService as ChatMessageService } from 'src/app/chat/services/message.service';
 
 interface SampleMessage {
   message: string,
@@ -48,6 +50,7 @@ interface SampleMessage {
 export class ChatWindowComponent implements OnInit, OnDestroy {
   #roomService = inject(RoomService);
   #chatService = inject(ChatService);
+  #chatMessageService = inject(ChatMessageService);
   #toast = inject(ToastService);
   #identityService = inject(IdentityService);
   
@@ -63,19 +66,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
 
   errors = new Array<string>();
 
-  
-  public TestMesssages: SampleMessage[] = [
-    { message: "Hi there!", isMyMessage: false },
-    { message: "How are you?", isMyMessage: false },
-    { message: "What's up?", isMyMessage: true },
-    { message: "See you soon.", isMyMessage: true },
-    { message: "Let's chat!", isMyMessage: false },
-    { message: "Good morning!", isMyMessage: false },
-    { message: "Good night.", isMyMessage: true },
-    { message: "Take care.", isMyMessage: false },
-    { message: "Thanks a lot!", isMyMessage: true },
-    { message: "Sounds good!", isMyMessage: true }
-  ];
+  public chatMessages: ChatMessage[] = [];
 
   createRoom() {
     if (this.roomName.trim()) {
@@ -103,14 +94,19 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
 
   sendMessage() {
     if (this.messageInput.trim()) {
-      this.TestMesssages.push({message: this.messageInput.trim(), isMyMessage: true});
+      this.#chatService.sendMessage(this.messageInput, this.selectedRoom.id, this.#identityService.userId);
       this.messageInput = '';
     }
   }
 
-  joinRoom($event, roomId) {
+  async joinRoom(roomId) {
     this.selectedRoom = this.rooms.find(x => x.id == roomId);
-    this.#chatService.joinRoom(this.#identityService.userId ,this.selectedRoom.name);
+    await this.#chatService.joinRoom(this.#identityService.userId ,this.selectedRoom.name)
+    this.#chatMessageService.getMessageHistory(roomId).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((data: ChatMessage[]) => {
+      this.chatMessages = [...data];
+    });
   }
 
   constructor() {
@@ -124,7 +120,25 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
       .subscribe(data => {
         this.rooms = data;
       });
-      
+    
+    this.#chatService.messages$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data: any[]) => {
+        var dataLength = data.length;
+        var currentData = data[dataLength - 1];
+        if (currentData.user == "System") {
+          this.#toast.info(currentData.message);
+        }
+        else {
+          this.chatMessages = [...this.chatMessages, {
+            id: 0,
+            chatMessage: currentData.message,
+            createDate: currentData.messageTime,
+            roomId: this.selectedRoom.id,
+            sentByUserId: currentData.user
+          }]
+        }
+      })
     this.loadData$.next();
   }
 

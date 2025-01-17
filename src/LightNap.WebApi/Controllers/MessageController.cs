@@ -9,10 +9,10 @@ namespace LightNap.WebApi.Controllers
     [Authorize]
     [ApiController]
     [Route("api/[controller]")]
-    public class MessagesController : ControllerBase
+    public class MessageController : ControllerBase
     {
         private readonly IMessageService _messageService;
-        public MessagesController(IMessageService messageService)
+        public MessageController(IMessageService messageService)
         {
             _messageService = messageService;
         }

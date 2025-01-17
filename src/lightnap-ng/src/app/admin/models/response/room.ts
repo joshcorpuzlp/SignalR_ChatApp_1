@@ -1,9 +1,9 @@
 export interface Room {
     /**
      * The unique identifier for the room.
-     * @type {string}
+     * @type {number}
      */
-    id: string;
+    id: number;
 
     /**
      * The name of the room.

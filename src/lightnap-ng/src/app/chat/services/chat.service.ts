@@ -44,13 +44,13 @@ export class ChatService {
         if (this.connection.state !== 'Connected') {
             await this.start();
         }
-        return this.connection.invoke("JoinRoom", user, room)
+        return await this.connection.invoke("JoinRoom", user, room)
     }
 
 
     // Send Messages
-    public async sendMessage(message: string){
-        return this.connection.invoke("SendMessage", message)
+    public async sendMessage(message: string, roomId: number, user: string){
+        return this.connection.invoke("SendMessage", message, roomId, user);
     }
 
     //leave

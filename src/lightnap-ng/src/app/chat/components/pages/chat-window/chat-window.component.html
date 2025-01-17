@@ -28,7 +28,7 @@
           <td>{{room.id}}</td>
           <td>{{room.name}}</td>
           <td>
-            <p-button label="Join Room" title="Join Room" (onClick)="joinRoom($event, room.id)"></p-button>
+            <p-button label="Join Room" title="Join Room" (onClick)="joinRoom(room.id)"></p-button>
           </td>
         </tr>
       </ng-template>
@@ -40,7 +40,7 @@
   <p-card header="Chat">
       <div class="chat-container">
           <div class="message-history">
-            <p *ngFor="let message of TestMesssages">{{ message.message }}</p>
+            <p *ngFor="let message of chatMessages">{{ message.chatMessage }}</p>
           </div>
           <div class="chat-input">
             <input pInputText type="text" [(ngModel)]="messageInput" (keyup.enter)="sendMessage()" placeholder="Type a message..." />

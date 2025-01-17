@@ -13,6 +13,8 @@ namespace LightNap.Core.ChatRoom.Services
     public interface IMessageService 
     {
         Task<IEnumerable<Message>> GetMessageHistory(int roomId);
+
+        Task CreateMessage(Message message);
     }
 
     public class MessageService : IMessageService
@@ -31,6 +33,11 @@ namespace LightNap.Core.ChatRoom.Services
             return messages;
         }
 
+        public async Task CreateMessage(Message message)
+        {
+            await _context.Messages.AddAsync(message);
+            await _context.SaveChangesAsync();
+        }
 
     }
 }
