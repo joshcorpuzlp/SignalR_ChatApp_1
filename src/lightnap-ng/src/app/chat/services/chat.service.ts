@@ -57,4 +57,8 @@ export class ChatService {
     public async leaveChat(){
         return this.connection.stop();
     }
+
+    public async leaveRoom(roomId: number, userId: string) {
+        return this.connection.invoke("LeaveRoom", roomId, userId)
+    }
 }

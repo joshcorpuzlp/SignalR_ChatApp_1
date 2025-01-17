@@ -88,7 +88,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   }
 
   leaveRoom() {
-    this.#chatService.leaveChat();
+    this.#chatService.leaveRoom(this.selectedRoom.id, this.#identityService.userId);
     this.selectedRoom = null;
   }
 
@@ -143,7 +143,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.#chatService.leaveChat();
     this.destroy$.next();
   }
-
 }
