@@ -40,7 +40,13 @@
   <p-card header="Chat">
       <div class="chat-container">
           <div class="message-history">
-            <p *ngFor="let message of chatMessages">{{ message.chatMessage }}</p>
+            <div *ngFor="let message of chatMessages">
+              <div [ngClass]="{'user-message' : message.isUserMessage}" class="chat-message">
+                <div [ngClass]="{'user-message-bubble': message.isUserMessage}" class="message-bubble">
+                  {{message.chatMessage}}
+                </div>
+              </div>
+            </div>
           </div>
           <div class="chat-input">
             <input pInputText type="text" [(ngModel)]="messageInput" (keyup.enter)="sendMessage()" placeholder="Type a message..." />

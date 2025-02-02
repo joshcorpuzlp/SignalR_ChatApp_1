@@ -16,7 +16,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
-import { BehaviorSubject, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, map, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 import { ChatMessage } from 'src/app/chat/models/chat-message';
 import { ChatService } from 'src/app/chat/services/chat.service';
 import { MessageService as ChatMessageService } from 'src/app/chat/services/message.service';
@@ -63,6 +63,7 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   hasSelectedRoom: boolean = false;
 
   rooms: Room[];
+  currentUserId: string;
 
   errors = new Array<string>();
 
@@ -103,10 +104,15 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
     this.selectedRoom = this.rooms.find(x => x.id == roomId);
     await this.#chatService.joinRoom(this.#identityService.userId ,this.selectedRoom.name)
     this.#chatMessageService.getMessageHistory(roomId).pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((data: ChatMessage[]) => {
-      this.chatMessages = [...data];
-    });
+      takeUntil(this.destroy$),
+      map(response => 
+        response.map(res => ({
+          ...res,
+          isUserMessage: res.sentByUserId == this.currentUserId
+        })))
+    ).subscribe(updatedRecords => {
+      this.chatMessages = [...updatedRecords]
+    })
   }
 
   constructor() {
@@ -114,6 +120,8 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.currentUserId = this.#identityService.userId;
+    console.log(this.currentUserId)
     this.loadData$.pipe(
       takeUntil(this.destroy$),
       switchMap(() => this.#roomService.getRooms()))
@@ -135,7 +143,8 @@ export class ChatWindowComponent implements OnInit, OnDestroy {
             chatMessage: currentData.message,
             createDate: currentData.messageTime,
             roomId: this.selectedRoom.id,
-            sentByUserId: currentData.user
+            sentByUserId: currentData.user,
+            isUserMessage: this.currentUserId == currentData.user
           }]
         }
       })
