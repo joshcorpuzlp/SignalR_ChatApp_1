@@ -1,7 +1,8 @@
 export interface ChatMessage {
     id: number;
     chatMessage: string;
-    sentByUserId: number;
+    sentByUserId: string;
     roomId: number;
     createDate: Date;
+    isUserMessage?: boolean;
 }

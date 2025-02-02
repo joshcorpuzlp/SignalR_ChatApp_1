@@ -5,6 +5,30 @@
     border-radius: 5px;
     padding: 10px;
   }
+
+  .chat-message {
+    margin: 5px;
+    height: auto;
+    display: flex;
+  }
+
+  .user-message {
+    flex-direction: row-reverse;
+  }
+
+  .message-bubble {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #E4EDF0;
+    max-width: 85%;
+  }
+
+  .user-message-bubble {
+    background-color: #39bbf2;
+  }
+
+  
   
   .message-history {
     flex: 1;
