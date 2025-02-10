@@ -11,6 +11,7 @@ describe("RouteAliasService", () => {
   const mockRoutes: AppRoute[] = [
     { path: "home", data: { alias: "user-home" } },
     { path: "about", data: { alias: "about" } },
+    { path: "chat-window", data: { alias: "chat-window" } },
     {
       path: "admin",
       data: { alias: "admin-home" },

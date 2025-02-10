@@ -21,6 +21,11 @@ export class MenuService {
     items: [{ label: "Home", icon: "pi pi-fw pi-home", routerLink: this.#routeAlias.getRoute("user-home") }],
   });
 
+  #chatMenuItems = new Array<MenuItem>({
+    label: "Chat Window",
+    items: [{ label: "Home", icon: "pi pi-fw pi-home", routerLink: this.#routeAlias.getRoute("chat-window") }],
+  });
+
   #loggedInMenuItems = new Array<MenuItem>({
     label: "Profile",
     items: [
@@ -58,7 +63,7 @@ export class MenuService {
   }
 
   #refreshMenuItems() {
-    var menuItems = [...this.#defaultMenuItems];
+    var menuItems = [...this.#defaultMenuItems, ...this.#chatMenuItems];
 
     if (this.#isLoggedIn) {
       menuItems.push(...this.#loggedInMenuItems);
