@@ -4,8 +4,9 @@
 
 export const environment = {
   production: false,
-  apiUrlRoot: "https://localhost:7266/api/"
-  };
+  apiUrlRoot: "https://localhost:7266/api/",
+  signalRApiUrlRoot: "https://localhost:7266/chat"
+};
 
 /*
  * For easier debugging in development mode, you can import the following file

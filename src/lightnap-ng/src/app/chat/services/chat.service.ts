@@ -1,23 +1,26 @@
-import { Injectable, Signal } from "@angular/core";
+import { Inject, inject, Injectable, Signal } from "@angular/core";
+import { SIGNALR_API_URL_ROOT } from "@core";
 import * as signalR from '@microsoft/signalr';
 import { BehaviorSubject } from "rxjs";
-
 
 @Injectable({
   providedIn: "root",
 })
 export class ChatService {
-    public connection : signalR.HubConnection = new signalR.HubConnectionBuilder()
-        .withUrl("https://localhost:7266/chat")
-        .configureLogging(signalR.LogLevel.Information)
-        .build();
+
+    public connection : signalR.HubConnection;
 
     public messages$ = new BehaviorSubject<any>([]);
     public connectedUsers$ = new BehaviorSubject<string[]>([]);
     public messages: any[] = [];
     public users: string[] = [];
 
-    constructor() {
+    constructor(@Inject(SIGNALR_API_URL_ROOT) private signalrApiUrlRoot: string) {
+        this.connection = new signalR.HubConnectionBuilder()
+            .withUrl(signalrApiUrlRoot)
+            .configureLogging(signalR.LogLevel.Information)
+            .build();
+
         this.start();
         this.connection.on("ReceiveMessage", (user: string, message: string, messageTime: string)=>{
             this.messages = [...this.messages, {user, message, messageTime} ];
