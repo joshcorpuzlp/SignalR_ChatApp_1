@@ -54,6 +54,7 @@ app.UseRouting();
 app.UseCors(policy =>
     policy
         .WithOrigins("http://localhost:4200")
+        .WithOrigins("https://chatappclient.azurewebsites.net/")
         .AllowAnyHeader()
         .AllowAnyMethod()
         .AllowCredentials());
@@ -63,7 +64,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseEndpoints(endpoints =>
 {
-    endpoints.MapHub<ChatHub>("/chat");
+    HubEndpointConventionBuilder hubEndpointConventionBuilder = endpoints.MapHub<ChatHub>("/chat");
 });
 
 app.UseDefaultFiles();

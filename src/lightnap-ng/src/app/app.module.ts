@@ -4,7 +4,7 @@ import { APP_INITIALIZER, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { provideAnimations } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
-import { API_URL_ROOT } from "@core";
+import { API_URL_ROOT, SIGNALR_API_URL_ROOT } from "@core";
 import { apiResponseInterceptor } from "@core/interceptors/api-response-interceptor";
 import { tokenInterceptor } from "@core/interceptors/token-interceptor";
 import { InitializationService } from "@core/services/initialization.service";
@@ -32,6 +32,7 @@ export function initializeApp(initializationService: InitializationService) {
     },
     provideAnimations(),
     { provide: API_URL_ROOT, useValue: environment.apiUrlRoot },
+    { provide: SIGNALR_API_URL_ROOT, useValue: environment.signalRApiUrlRoot },
     { provide: LocationStrategy, useClass: PathLocationStrategy },
     provideHttpClient(withInterceptors([tokenInterceptor, apiResponseInterceptor])),
     MessageService,

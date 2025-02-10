@@ -26,6 +26,16 @@
     <ProjectReference Include="..\LightNap.DataProviders.SqlServer\LightNap.DataProviders.SqlServer.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <EditorConfigFiles Remove="C:\Users\Joshua Corpuz\source\repos\SignalR_ChatApp_1\src\LightNap.WebApi\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\Joshua Corpuz\source\repos\SignalR_ChatApp_1\src\LightNap.WebApi\.editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="appsettings.production.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 </Project>

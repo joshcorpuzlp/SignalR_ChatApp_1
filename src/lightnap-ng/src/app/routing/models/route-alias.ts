@@ -15,6 +15,9 @@ export type RouteAlias =
     // User
     | 'user-home'
 
+    // Chat
+    | 'chat-window'
+
     // Admin
     | 'admin-home'
     | 'admin-users'
